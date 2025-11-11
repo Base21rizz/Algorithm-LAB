@@ -1,29 +1,49 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-void quickSort(int a[], int l, int h) {
-    if (l < h) {
-        int p = a[h];
-        int i = l - 1;
-        for (int j = l; j < h; j++) {
-            if (a[j] < p) {
-                i++;
-                swap(a[i], a[j]);
-            }
+vector<int> v;
+int Part_ition(int start,int end)
+{
+    int pivot = v[end];
+    int i = start-1;
+    for (int j = start; j <= end-1; j++)
+    {
+        if(v[j] < pivot)
+        {
+            i++;
+            swap(v[i],v[j]);
         }
-        swap(a[i + 1], a[h]);
-        int pi = i + 1;
-        quickSort(a, l, pi - 1);
-        quickSort(a, pi + 1, h);
     }
+    i++;
+    swap(v[i],v[end]);
+    return i;
 }
-int main() {
-    int a[] = {10, 2, 3, 5, 1, 9, 17};
-    int n = sizeof(a) / sizeof(a[0]);
-    cout << "Original Array: 10 2 3 5 1 9 17" << endl;
-    quickSort(a, 0, n - 1);
-    cout << "Sorted Array: ";
+void quicksort(int start,int end)
+{
+    if(end <= start) return;
+    int pivot = Part_ition(start,end);
+    quicksort(start,pivot-1);
+    quicksort(pivot+1,end);
+}
+
+int main()
+{
+    int n;
+    cin >> n;
     for (int i = 0; i < n; i++)
-        cout << a[i] << " ";
-    cout << endl;
-    return 0;
+    {
+        int num;
+        cin >> num;
+        v.push_back(num);
+    }
+    cout << "Unsorted Array: "<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << v[i] << ' ';
+    }
+    quicksort(0,n-1);
+    cout << endl << "Sorted Array: "<<endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << v[i] << ' ';
+    }
 }
